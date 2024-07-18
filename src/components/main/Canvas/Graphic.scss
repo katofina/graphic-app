@@ -1,0 +1,24 @@
+@import "./options.scss";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.graphic {
+    height: 100vh;
+    max-height: 100vh;
+    width: 100vw;
+    background-color: $background-color;
+}
+
+.panel {
+    height: $toolbar-height;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    border: 1px solid black;
+}
