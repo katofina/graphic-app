@@ -1,6 +1,6 @@
 const Settings = () => {
     return (
-        <div className="panel">
+        <div className="panel-setting">
 
         </div>
     )
