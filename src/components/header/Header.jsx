@@ -9,6 +9,7 @@ function Header() {
             <div>
                 <button className='buttonSign'><Link className='link'>Sign In</Link></button>
                 <button className='buttonSign'><Link className='link'>Sign Up</Link></button>
+                <button className='buttonSign'><Link className='link' to="/save">Save Image</Link></button>
             </div>
         </>
     )

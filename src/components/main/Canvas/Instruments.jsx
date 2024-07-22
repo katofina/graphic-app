@@ -45,6 +45,11 @@ const Instruments = () => {
                 context.drawImage(img, 0, 0, fabric.canvas.width, fabric.canvas.height);
             };
         };
+    };
+
+    function save() {
+        const same = fabric.save.some(el => el === fabric.canvas.toDataURL());
+        if (!same) dispatch(canvas.actions.pushSave(fabric.canvas.toDataURL()));
     }
 
     return (
@@ -72,7 +77,7 @@ const Instruments = () => {
         <input type="color" style={{ marginLeft: 10 }}  onChange={(e) => changeColor(e)}/>
         <button className="instrument-button back" onClick={back}></button>
         <button className="instrument-button forward" onClick={forward}></button>
-        <button className="instrument-button save"></button>
+        <button className="instrument-button save" onClick={save}></button>
     </div>
     );
 };

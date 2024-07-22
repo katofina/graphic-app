@@ -11,6 +11,7 @@ function Canvas() {
 
     function handlerSave() {
         dispatch(canvas.actions.pushAllDo(canvasRef.current.toDataURL()));
+        console.log(canvasRef.current);
     };
 
     useEffect(() => {

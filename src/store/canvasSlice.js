@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { canvas: null, allDo: [], cancelDo: [] };
+const initialState = { canvas: null, allDo: [], cancelDo: [], save: [] };
 
 const canvas = createSlice({
     name: "canvas",
@@ -22,6 +22,10 @@ const canvas = createSlice({
         forwardDo: (state, action) => {
             state.allDo.push(action.payload);
             state.cancelDo.pop();
+        },
+
+        pushSave: (state, action) => {
+            state.save.push(action.payload);
         }
     },
 });
