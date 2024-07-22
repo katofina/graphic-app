@@ -48,7 +48,7 @@ const SignIn = () => {
     return (
         <div className='divForm'>
             <form onSubmit={formik.handleSubmit} className='form'>
-                <p className='pSign'>Sign Up</p> 
+                <p className='pSign'>Sign In</p> 
                 <div className='divSign'>
                     <div className="divInput">
                         <label htmlFor="email">Email Address:</label>

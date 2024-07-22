@@ -8,8 +8,8 @@ function Main() {
             <p>For saving you should have your account.</p>
             <div>
                 <button><Link className="link" to='/draw'>Use now</Link></button>
-                <button><Link className="link">Sign Up</Link></button>
-                <button><Link className="link">Sign In</Link></button>
+                <button><Link className="link" to="/signup">Sign Up</Link></button>
+                <button><Link className="link" to="/signin">Sign In</Link></button>
             </div>
         </div>
     )
