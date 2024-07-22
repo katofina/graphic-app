@@ -6,11 +6,13 @@ import Square from "./tools/Square";
 import Circle from "./tools/Circle";
 import Rubber from "./tools/Rubber";
 import Line from "./tools/Line";
+import saver from '../../../store/canvasSlice';
 
 const Instruments = () => {
     const dispatch = useDispatch();
     const fabric = useSelector((store) => store.canvas);
     const tools = useSelector((store) => store.option);
+    const auth = useSelector((store) => store.sign);
 
     function changeColor(e) {
         const color = e.target.value;
@@ -48,8 +50,12 @@ const Instruments = () => {
     };
 
     function save() {
-        const same = fabric.save.some(el => el === fabric.canvas.toDataURL());
-        if (!same) dispatch(canvas.actions.pushSave(fabric.canvas.toDataURL()));
+        if(auth.auth) {
+            const same = fabric.save.some(el => el === fabric.canvas.toDataURL());
+            if (!same) dispatch(canvas.actions.pushSave(fabric.canvas.toDataURL()));
+        } else {
+            alert('You should sign in or sign up for save the image');
+        }
     }
 
     return (

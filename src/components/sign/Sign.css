@@ -1,0 +1,44 @@
+.divForm {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    border: 1px solid black;
+    height: 500px;
+    width: 500px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(192, 191, 190);
+}
+
+.divSign {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.pSign {
+    font-size: 40px;
+}
+
+.divInput {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 352px;
+}
+
+.divError {
+    color: rgb(118, 45, 45);
+}
+
+.input {
+    font-size: 20px;
+}

@@ -30,6 +30,14 @@ main {
   width: 100%;
 }
 
+.mainDiv {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 button {
   cursor: pointer;
 }
