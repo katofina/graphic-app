@@ -7,10 +7,6 @@ export default class Tool {
         this.revokeEvents();
     }
 
-    set lineWidth(width) {
-        this.ctx.lineWidth = width;
-    }
-
     revokeEvents() {
         this.canvas.onmousemove = null;
         this.canvas.onmousedown = null;
