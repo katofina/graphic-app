@@ -1,16 +1,24 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
-import { useDispatch, useSelector } from 'react-redux';
-import sign from '../../store/signSlice';
+import {endSession, isLoggedIn} from "../../storage/session";
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import canvas from '../../store/canvasSlice';
 
 function Header() {
-    const auth = useSelector(store => store.sign.auth);
+    const [isLogged, setIsLogged] = useState();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        if(!isLoggedIn()) {setIsLogged(false)}
+        else {setIsLogged(true)}
+    }, [navigate])
+
     function logOut() {
-        dispatch(sign.actions.setAuth({auth: false, name: '', email: ''}));
         dispatch(canvas.actions.clearSave());
+        endSession();
+        setIsLogged(!isLogged);
     };
 
     return (
@@ -18,7 +26,7 @@ function Header() {
             <p className="pLabel"><Link className='link' to="/">GraphApp</Link></p>
 
             <div>
-                {auth ? (
+                {isLogged ? (
                     <>
                         <button className='buttonSign'><Link className='link' to="/save">Save Image</Link></button>
                         <button className='buttonSign' onClick={logOut}>Log Out</button>

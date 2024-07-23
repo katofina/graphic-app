@@ -28,10 +28,6 @@ const canvas = createSlice({
             state.save.push(action.payload);
         },
 
-        concatSave: (state, action) => {
-            state.save = state.save.concat(action.payload);
-        },
-
         clearSave: (state, action) => {
             state.save = [];
         }

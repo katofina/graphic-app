@@ -2,15 +2,12 @@ import './Sign.css';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import sign from '../../store/signSlice';
+import {createUser} from "../../firebase";
+import {startSession} from "../../storage/session";
+import { useState } from 'react';
 
 const validate = values => {
     const errors = {};
-    if (!values.firstName) {
-        errors.firstName = 'Required';
-    } else if (values.firstName.length > 15) {
-        errors.firstName = 'Must be 15 characters or less';
-    }
 
     if (!values.password) {
         errors.password = 'Required';
@@ -22,48 +19,38 @@ const validate = values => {
         errors.email = 'Required';
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address';
-    } else if (localStorage.getItem(`${values.email}_graph`)) {
-        errors.email = 'This email already exist';
     }
 
     return errors;
 };
 
 const SignUp = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [error, setError] = useState("");
 
     const formik = useFormik({
         initialValues: {
-            firstName: '',
             email: '',
             password: '',
         },
         validate,
-        onSubmit: values => {
-            localStorage.setItem(`${values.email}_graph`, JSON.stringify({password: values.password, firstName: values.firstName}));
-            dispatch(sign.actions.setAuth({auth: true, name: values.firstName}));
-            navigate(-1);
+        onSubmit: async(values) => {
+            try {
+                let registerResponse = await createUser(values.email, values.password);
+                startSession(registerResponse.user);
+                navigate('/draw');
+            } catch (error) {
+                console.error(error.message);
+                setError(error.message);
+            }
         },
     });
     return (
         <div className='divForm'>
             <form onSubmit={formik.handleSubmit} className='form'>
                 <p className='pSign'>Sign Up</p> 
+                {error && <p>Error: {error}</p>}
                 <div className='divSign'>
-                    <div className="divInput">
-                        <label htmlFor="firstName">First Name:</label>
-                        <input
-                            id="firstName"
-                            name="firstName"
-                            type="text"
-                            onChange={formik.handleChange}
-                            value={formik.values.firstName}
-                            className="input"
-                        />
-                        {formik.errors.firstName ? <div className="divError">{formik.errors.firstName}</div> : null}
-                    </div>
-
                     <div className="divInput">
                         <label htmlFor="email">Email Address:</label>
                         <input

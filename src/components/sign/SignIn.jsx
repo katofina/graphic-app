@@ -1,9 +1,9 @@
 import './Sign.css';
 import { useFormik } from 'formik';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import sign from '../../store/signSlice';
-import canvas from '../../store/canvasSlice';
+import {signInUser} from "../../firebase";
+import {startSession} from "../../storage/session";
+import { useState } from 'react';
 
 const validate = values => {
     const errors = {};
@@ -11,24 +11,20 @@ const validate = values => {
         errors.password = 'Required';
     } else if (!/^(?=.*\d)(?=(.*\W))(?=.*[a-zA-Z])(?!.*\s).{1,15}$/.test(values.password)) {
         errors.password = 'Should contain 1 special character, 1 digit, 1 letter';
-    } else if (JSON.parse(localStorage.getItem(`${values.email}_graph`)).password !== values.password) {
-        errors.password = 'Incorrect passwrod';
-    }
+    };
 
     if (!values.email) {
         errors.email = 'Required';
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address';
-    } else if (!localStorage.getItem(`${values.email}_graph`)) {
-        errors.email = 'User with this email are not registered'
-    }
+    };
 
     return errors;
 };
 
 const SignIn = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [error, setError] = useState("");
 
     const formik = useFormik({
         initialValues: {
@@ -36,19 +32,22 @@ const SignIn = () => {
             password: '',
         },
         validate,
-        onSubmit: values => {
-            const userInfo = JSON.parse(localStorage.getItem(`${values.email}_graph`));
-            console.log(userInfo);
-            dispatch(sign.actions.setAuth({auth: true, name: userInfo.firstName, email: values.email}));
-            const save = userInfo.save;
-            if (save.length) dispatch(canvas.actions.concatSave(save));
-            navigate(-1);
+        onSubmit: async(values) => {
+            try {
+                let loginResponse = await signInUser(values.email, values.password);
+                startSession(loginResponse.user);
+                navigate("/draw");
+            } catch (error) {
+                console.error(error.message);
+                setError(error.message);
+            }
         },
     });
     return (
         <div className='divForm'>
             <form onSubmit={formik.handleSubmit} className='form'>
                 <p className='pSign'>Sign In</p> 
+                {error && <p>Error: {error}</p>}
                 <div className='divSign'>
                     <div className="divInput">
                         <label htmlFor="email">Email Address:</label>
