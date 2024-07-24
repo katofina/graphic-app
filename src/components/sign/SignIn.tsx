@@ -1,30 +1,29 @@
 import './Sign.css';
 import { useFormik } from 'formik';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {createUser} from "../../firebase";
-import {startSession} from "../../storage/session";
+import {signInUser} from "../../firebase.ts";
+import {startSession} from "../../storage/session.ts";
 import { useState } from 'react';
+import React from 'react';
 
-const validate = values => {
-    const errors = {};
-
+const validate = (values: { password: string, email: string }) => {
+    const errors: { password?: string, email?: string } = {};
     if (!values.password) {
         errors.password = 'Required';
     } else if (!/^(?=.*\d)(?=(.*\W))(?=.*[a-zA-Z])(?!.*\s).{1,15}$/.test(values.password)) {
         errors.password = 'Should contain 1 special character, 1 digit, 1 letter';
-    }
+    };
 
     if (!values.email) {
         errors.email = 'Required';
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address';
-    }
+    };
 
     return errors;
 };
 
-const SignUp = () => {
+const SignIn = () => {
     const navigate = useNavigate();
     const [error, setError] = useState("");
 
@@ -36,9 +35,11 @@ const SignUp = () => {
         validate,
         onSubmit: async(values) => {
             try {
-                let registerResponse = await createUser(values.email, values.password);
-                startSession(registerResponse.user);
-                navigate('/draw');
+                let loginResponse = await signInUser(values.email, values.password);
+                let accessToken = await loginResponse.user.getIdToken();
+                console.log(loginResponse.user, accessToken);
+                startSession(loginResponse.user.email, accessToken);
+                navigate("/draw");
             } catch (error) {
                 console.error(error.message);
                 setError(error.message);
@@ -48,7 +49,7 @@ const SignUp = () => {
     return (
         <div className='divForm'>
             <form onSubmit={formik.handleSubmit} className='form'>
-                <p className='pSign'>Sign Up</p> 
+                <p className='pSign'>Sign In</p> 
                 {error && <p>Error: {error}</p>}
                 <div className='divSign'>
                     <div className="divInput">
@@ -83,4 +84,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default SignIn;

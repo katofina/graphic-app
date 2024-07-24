@@ -1,12 +1,13 @@
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
 import './Header.css';
-import {endSession, isLoggedIn} from "../../storage/session";
+import { Link, useNavigate } from 'react-router-dom';
+import {endSession, isLoggedIn} from "../../storage/session.ts";
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import canvas from '../../store/canvasSlice';
+import {useDispatch} from 'react-redux';
+import canvas from '../../store/canvasSlice.ts';
 
 function Header() {
-    const [isLogged, setIsLogged] = useState();
+    const [isLogged, setIsLogged] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 

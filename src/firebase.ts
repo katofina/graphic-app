@@ -1,10 +1,17 @@
-import { initializeApp } from "firebase/app";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth} from "firebase/auth";
 import firebase from "firebase/compat/app";
 import 'firebase/compat/storage';
 
+interface FirebaseConfig {
+    apiKey: string;
+    authDomain: string;
+    projectId: string;
+    storageBucket: string;
+    messagingSenderId: string;
+    appId: string;
+}
 
-const firebaseConfig = {
+const firebaseConfig:  FirebaseConfig = {
     apiKey: "AIzaSyC3895VXHTWJKRDeppMVTaL9i1Z7Gek9CE",
     authDomain: "graphapp-cc6e9.firebaseapp.com",
     projectId: "graphapp-cc6e9",
@@ -15,11 +22,11 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 
-export const createUser = async (email, password) => {
+export const createUser = async (email: string, password: string) => {
     return createUserWithEmailAndPassword(getAuth(app), email, password);
 }
 
-export const signInUser = async (email, password) => {
+export const signInUser = async (email: string, password: string) => {
     return signInWithEmailAndPassword(getAuth(app), email, password);
 }
 

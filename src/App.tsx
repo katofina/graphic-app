@@ -1,12 +1,12 @@
 import './App.css';
-import { Layout } from './Layout.jsx';
+import React from 'react';
+import { Layout } from './Layout.tsx';
 import { Routes, Route } from 'react-router-dom';
-
-import Graphic from './components/main/Canvas/Graphic.jsx';
-import Main from './components/main/Main.jsx';
-import Save from './components/main/Save.jsx';
-import SignIn from './components/sign/SignIn.jsx';
-import SignUp from './components/sign/SignUp.jsx';
+import Graphic from './components/main/Canvas/Graphic.tsx';
+import Main from './components/main/Main.tsx';
+import Save from './components/main/Save.tsx';
+import SignIn from './components/sign/SignIn.tsx';
+import SignUp from './components/sign/SignUp.tsx';
 
 function App() {
   return (

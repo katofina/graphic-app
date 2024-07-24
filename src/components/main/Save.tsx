@@ -1,10 +1,12 @@
 import './Save.css';
-import { storage } from "../../firebase";
-import { getSession } from "../../storage/session";
+import React from 'react';
+import { storage } from "../../firebase.ts";
+import { getSession } from "../../storage/session.ts";
 import { useEffect, useState } from "react";
 
 function Save() {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<string[]>([]);
+    console.log(data);
 
     useEffect(() => {
         storage
@@ -22,8 +24,8 @@ function Save() {
     if(data.length) return (
         <>
             <ul className="ulSave">
-                {data.map((item) => (
-                    <img src={item} alt="saveImg" className="saveImg" key={item.index}/>
+                {data.map((item, index) => (
+                    <img src={item} alt="saveImg" className="saveImg" key={index}/>
                 ))}
             </ul>
         </>

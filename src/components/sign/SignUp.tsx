@@ -1,28 +1,29 @@
 import './Sign.css';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import {signInUser} from "../../firebase";
-import {startSession} from "../../storage/session";
+import {createUser} from "../../firebase.ts";
+import {startSession} from "../../storage/session.ts";
 import { useState } from 'react';
 
 const validate = values => {
     const errors = {};
+
     if (!values.password) {
         errors.password = 'Required';
     } else if (!/^(?=.*\d)(?=(.*\W))(?=.*[a-zA-Z])(?!.*\s).{1,15}$/.test(values.password)) {
         errors.password = 'Should contain 1 special character, 1 digit, 1 letter';
-    };
+    }
 
     if (!values.email) {
         errors.email = 'Required';
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address';
-    };
+    }
 
     return errors;
 };
 
-const SignIn = () => {
+const SignUp = () => {
     const navigate = useNavigate();
     const [error, setError] = useState("");
 
@@ -34,9 +35,10 @@ const SignIn = () => {
         validate,
         onSubmit: async(values) => {
             try {
-                let loginResponse = await signInUser(values.email, values.password);
-                startSession(loginResponse.user);
-                navigate("/draw");
+                let registerResponse = await createUser(values.email, values.password);
+                startSession(registerResponse.user);
+                console.log(registerResponse.user);
+                navigate('/draw');
             } catch (error) {
                 console.error(error.message);
                 setError(error.message);
@@ -46,7 +48,7 @@ const SignIn = () => {
     return (
         <div className='divForm'>
             <form onSubmit={formik.handleSubmit} className='form'>
-                <p className='pSign'>Sign In</p> 
+                <p className='pSign'>Sign Up</p> 
                 {error && <p>Error: {error}</p>}
                 <div className='divSign'>
                     <div className="divInput">
@@ -81,4 +83,4 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+export default SignUp;

@@ -1,9 +1,14 @@
+import { Option } from "../../../../store/optionSlice";
+
 export default class Tool {
-    constructor(canvas, option) {
+    canvas: HTMLCanvasElement;
+    option: Option;
+    ctx: CanvasRenderingContext2D | null;
+    constructor(canvas: HTMLCanvasElement, option: Option) {
         this.canvas = canvas;
         this.option = option;
         this.ctx = this.canvas.getContext('2d');
-        this.ctx.lineWidth = this.option.width;
+        this.ctx!.lineWidth = Number(this.option.width);
         this.revokeEvents();
     }
 

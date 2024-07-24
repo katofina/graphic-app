@@ -1,7 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import option from './optionSlice.js';
-import canvas from './canvasSlice.js';
-import saver from './saver';
+import option from './optionSlice.ts';
+import canvas from './canvasSlice.ts';
+import saver from './saver.ts';
+import { Canvas } from "./canvasSlice.ts";
+import { Option } from "./optionSlice.ts";
+
+export interface Store {
+    option: Option,
+    canvas: Canvas
+}
 
 export const store = configureStore({
     reducer: {

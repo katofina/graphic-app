@@ -1,8 +1,7 @@
-import { getSession } from "../storage/session";
-import {storage} from '../firebase';
+import { getSession } from "../storage/session.ts";
+import {storage} from '../firebase.ts';
 
 const saver = (store) => (next) => (action) => {
-    console.log(action.type, store.getState());
     if(action.type === 'canvas/pushSave') {
         const getId = () => { 
             const dateString = Date.now().toString(36); 

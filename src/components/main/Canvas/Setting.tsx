@@ -1,5 +1,6 @@
+import React from "react";
 import { useDispatch } from "react-redux";
-import option from "../../../store/optionSlice";
+import option from "../../../store/optionSlice.ts";
 
 const Settings = () => {
     const dispatch = useDispatch();
