@@ -1,0 +1,13 @@
+.ulSave {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.saveImg {
+    width: 400px;
+    height: 400px;
+    border: 1px solid black;
+    margin-top: 10px;
+}
